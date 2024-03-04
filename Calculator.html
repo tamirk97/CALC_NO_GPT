@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h2>Calculator</h2>
+    <h3>Let's calculate</h3>
+
+    <button onclick="addDigit(1)">1</button>
+    <button onclick="addDigit(2)">2</button>
+    <button onclick="addDigit(3)">3</button>
+    <br>
+    <button onclick="addDigit(4)">4</button>
+    <button onclick="addDigit(5)">5</button>
+    <button onclick="addDigit(6)">6</button>
+    <br>
+    <button onclick="addDigit(7)">7</button>
+    <button onclick="addDigit(8)">8</button>
+    <button onclick="addDigit(9)">9</button>
+    <br>
+    <button onclick="oper('+')">+</button>
+    <button onclick="addDigit(0)">0</button>
+    <button onclick="oper('-')">-</button>
+    <br>
+    <button onclick="oper('*')">*</button>
+    <button onclick="oper('/')">/</button>
+    <button onclick="oper('^')">^</button>
+    <button onclick="calculate()">=</button>
+    <br>
+    <button onclick="squareRoot()">√</button>
+    <button onclick="clearNum()">C</button>
+    <br><br><br>
+    <input id="res">
+
+    <script>
+        let clearFlag = false
+        let num1 = 0
+        let lastOper = ""
+        let sum = 0
+        let memory = 0
+
+
+        function addDigit(digit) {
+            if (clearFlag) {
+                res.value = ""
+                clearFlag = false
+            }
+            res.value += digit
+        }
+
+        function oper(op) {
+            clearFlag = true
+            num1 = res.value
+            lastOper = op
+        }
+
+        function calculate() {
+            clearFlag = true
+            if (lastOper == "+") {
+                sum = +num1 + +res.value
+            } else if (lastOper == "-") {
+                sum = +num1 - +res.value
+            } else if (lastOper == "*") {
+                sum = +num1 * +res.value
+            } else if (lastOper == "/") {
+                sum = +num1 / +res.value
+            } else if (lastOper == "^") {  // exponentiation
+                sum = Math.pow(+num1, +res.value);
+            } else if (lastOper == "mod") {  // modulo
+                sum = +num1 % +res.value;
+            }
+            res.value = sum // will calculate the above after X operation is clicked
+        }
+
+
+        function manageMemory(op) {
+            if (op === 'store') {
+                memory = res.value
+            } else if (op === 'recall') {
+                res.value = memory
+            } else if (op === 'clear') {
+                memory = 0
+            }
+        }
+
+
+        function clearNum() {
+            res.value = ""
+            clearFlag = true;
+        }
+
+        function squareRoot() {
+            res.value = Math.sqrt(+res.value); // Calculate square root
+            clearFlag = true;
+        }
+
+        function exponentiation() {
+            lastOper = "pow";
+            num1 = res.value;
+            clearFlag = true;
+        }
+
+        function modulo() {
+            lastOper = "mod";
+            num1 = res.value;
+            clearFlag = true;
+        }
+
+    </script>
+</body>
+
+</html>
